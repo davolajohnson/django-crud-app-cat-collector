@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.list import ListView
+
 from .models import Cat
 # class Cat:
 #     def __init__(self, name, breed, description, age):
@@ -29,3 +32,37 @@ def cat_detail(request, cat_id): #cat id is the url parameter of the cats id
     cat = Cat.objects.get(id=cat_id)
     print(cat_id)
     return render(request, "cats/detail.html", {'cat': cat})
+
+class CatCreate(CreateView): # ModelForm
+    model = Cat
+    fields = "__all__"
+    # template_name = "cats/cat_form.html"
+    # success_url = "/cats/"
+
+class CatUpdate(UpdateView):
+    model = Cat
+    fields = ["breed", "description", "age"]
+
+class CatDelete(DeleteView):
+    model = Cat
+    success_url = "/cats/"
+
+class CatList(ListView):
+    model = Cat
+    template_name = "cats/index.html"
+
+# class BookCreate(CreateView): # ModelForm
+#     model = Book
+#     fields = "__all__"
+
+# class BookUpdate(UpdateView):
+#     model = Book
+#     fields = "__all__"
+
+# class BookDelete(DeleteView):
+#     model = Book
+#     success_url = "/books/"
+
+# class BookList(ListView):
+#     model = Book
+#     template_name = "book/index.html"
